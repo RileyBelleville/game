@@ -482,6 +482,52 @@ local function toggleBoardMode()
     end
 end
 
+-- [[ Help / Controls UI ]] --
+local helpFrame = Instance.new("Frame")
+helpFrame.Name = "HelpFrame"
+helpFrame.Visible = false
+helpFrame.BackgroundTransparency = 0.2
+helpFrame.BackgroundColor3 = Color3.fromRGB(15,15,15)
+helpFrame.Position = UDim2.new(0.5,-225,0.5,-150)
+helpFrame.Size = UDim2.new(0,450,0,300)
+helpFrame.BorderSizePixel = 0
+helpFrame.Parent = gui
+
+local helpTitle = Instance.new("TextLabel")
+helpTitle.BackgroundTransparency = 1
+helpTitle.Position = UDim2.new(0,0,0,0)
+helpTitle.Size = UDim2.new(1,0,0,40)
+helpTitle.Font = Enum.Font.GothamBold
+helpTitle.TextSize = 24
+helpTitle.TextColor3 = Color3.fromRGB(255,255,255)
+helpTitle.Text = "Controls"
+helpTitle.Parent = helpFrame
+
+local helpText = Instance.new("TextLabel")
+helpText.BackgroundTransparency = 1
+helpText.Position = UDim2.new(0,10,0,45)
+helpText.Size = UDim2.new(1,-20,1,-55)
+helpText.Font = Enum.Font.Gotham
+helpText.TextSize = 18
+helpText.TextColor3 = Color3.fromRGB(255,255,255)
+helpText.TextXAlignment = Enum.TextXAlignment.Left
+helpText.TextYAlignment = Enum.TextYAlignment.Top
+helpText.Text = table.concat({
+    "O - Toggle Shop",
+    "L - Toggle Leaderboard",
+    "C - Cycle Leaderboards",
+    "V - Toggle Spectate",
+    "K - Toggle AFK",
+    "H - Toggle Help",
+}, "\n")
+helpText.Parent = helpFrame
+
+local helpVisible = false
+local function toggleHelp()
+    helpVisible = not helpVisible
+    helpFrame.Visible = helpVisible
+end
+
 -- [[ Spectate ]] -- simple camera cycle through alive players
 local spectating = false
 local spectateIndex = 1
@@ -638,6 +684,8 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         toggleBoardMode()
     elseif input.KeyCode == Enum.KeyCode.V then
         toggleSpectate()
+    elseif input.KeyCode == Enum.KeyCode.H then
+        toggleHelp()
     elseif input.KeyCode == Enum.KeyCode.K then
         -- Toggle AFK state on the server.  No argument toggles the state.
         SetAFK:FireServer()
